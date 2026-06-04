@@ -1,0 +1,6 @@
+@TechMoveGLMS.API_HostAddress = http://localhost:5212
+
+GET {{TechMoveGLMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
