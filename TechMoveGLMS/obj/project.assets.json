@@ -498,11 +498,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.6": {
+      "Microsoft.EntityFrameworkCore/10.0.8": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.6",
-          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.6"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8",
+          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.8"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
@@ -518,7 +518,7 @@
           "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.6": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -531,7 +531,7 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/10.0.6": {
+      "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
         "type": "package"
       },
       "Microsoft.EntityFrameworkCore.Design/10.0.6": {
@@ -1081,6 +1081,20 @@
         },
         "build": {
           "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "TechMoveGLMS.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.8"
+        },
+        "compile": {
+          "bin/placeholder/TechMoveGLMS.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TechMoveGLMS.Shared.dll": {}
         }
       }
     }
@@ -2366,10 +2380,10 @@
         "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll"
       ]
     },
-    "Microsoft.EntityFrameworkCore/10.0.6": {
-      "sha512": "eDy7bu3G+51FRC0cPtXTqUI9iAdDYl/XBQ5UguN8NFOA7QNmFvUEf36wA7PZ4ctsnxRN4t3dIvs2VKVE5H+EQQ==",
+    "Microsoft.EntityFrameworkCore/10.0.8": {
+      "sha512": "EJx+fIBMgBlgD+ublKCn+GTOJkw3UqV7xOjYWBRVdUYyIm8UfvAsmSOPFiIInsWTHyMEYUJ9gCJY1jwX+6UB7w==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/10.0.6",
+      "path": "microsoft.entityframeworkcore/10.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2378,14 +2392,14 @@
         "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.10.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.10.0.8.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.6": {
-      "sha512": "4F+e6uxhVmyduu+Ve1INxek94adt4RAddWqykXNDnOOWQrJJ20izw/9qRpZdkLnIW9oj/3qnLWUtsv37U0xJCw==",
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+      "sha512": "jbKDXWPZQhuPHygMnwzNOqxBADVcpRVytcKYZsA++QqhPkpF93Ta8o5mbJQGrARSjlkr9WtOaADV97EDMOZ7DA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.6",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2393,21 +2407,21 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.10.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.10.0.8.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/10.0.6": {
-      "sha512": "PIcmALdKzeSJNWmxsLDsS8XKFqiH5+9GzIM+qd3w1efYIwmO0w5304i37/SkfynctHZwkiiQjb2mkoIXU1CGZg==",
+    "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
+      "sha512": "M3BZ8JH8rB6BE7dO2g9iVbrHLnEz9wMXT6q+tDR6Nq3gyP3KmBj5OTiZGxyF3vesjOQNKanYoPGSNBR4kR2llg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/10.0.6",
+      "path": "microsoft.entityframeworkcore.analyzers/10.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "docs/PACKAGE.md",
-        "microsoft.entityframeworkcore.analyzers.10.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.10.0.8.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
@@ -3256,6 +3270,11 @@
         "system.security.cryptography.protecteddata.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "TechMoveGLMS.Shared/1.0.0": {
+      "type": "project",
+      "path": "../TechMoveGLMS.Shared/TechMoveGLMS.Shared.csproj",
+      "msbuildProject": "../TechMoveGLMS.Shared/TechMoveGLMS.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3265,7 +3284,8 @@
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.6",
       "Microsoft.Extensions.Http >= 10.0.7",
       "Microsoft.Extensions.Logging.Abstractions >= 10.0.7",
-      "Microsoft.Extensions.Logging.Console >= 10.0.7"
+      "Microsoft.Extensions.Logging.Console >= 10.0.7",
+      "TechMoveGLMS.Shared >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3275,11 +3295,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lab_services_student\\Documents\\GitHub\\prog7311-2026-poe-bradleydevilliers\\Prog7311POE\\TechMoveGLMS\\TechMoveGLMS.csproj",
+      "projectUniqueName": "C:\\Users\\lab_services_student\\Documents\\GitHub\\EMECPE-prog7311-2026-poe-bradleydevilliers\\TechMoveGLMS\\TechMoveGLMS.csproj",
       "projectName": "TechMoveGLMS",
-      "projectPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\prog7311-2026-poe-bradleydevilliers\\Prog7311POE\\TechMoveGLMS\\TechMoveGLMS.csproj",
+      "projectPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\EMECPE-prog7311-2026-poe-bradleydevilliers\\TechMoveGLMS\\TechMoveGLMS.csproj",
       "packagesPath": "C:\\Users\\lab_services_student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\prog7311-2026-poe-bradleydevilliers\\Prog7311POE\\TechMoveGLMS\\obj\\",
+      "outputPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\EMECPE-prog7311-2026-poe-bradleydevilliers\\TechMoveGLMS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3299,7 +3319,11 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\lab_services_student\\Documents\\GitHub\\EMECPE-prog7311-2026-poe-bradleydevilliers\\TechMoveGLMS.Shared\\TechMoveGLMS.Shared.csproj": {
+              "projectPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\EMECPE-prog7311-2026-poe-bradleydevilliers\\TechMoveGLMS.Shared\\TechMoveGLMS.Shared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -3789,6 +3813,16 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
+      "message": "PackageReference Microsoft.Extensions.Http will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "libraryId": "Microsoft.Extensions.Http",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "warningLevel": 1,
       "message": "PackageReference Microsoft.Extensions.Logging.Abstractions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "Microsoft.Extensions.Logging.Abstractions",
       "targetGraphs": [
@@ -3806,11 +3840,10 @@
       ]
     },
     {
-      "code": "NU1510",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "PackageReference Microsoft.Extensions.Http will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
-      "libraryId": "Microsoft.Extensions.Http",
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: Microsoft.EntityFrameworkCore.SqlServer from 10.0.8 to 10.0.6. Reference the package directly from the project to select a different version. \r\n TechMoveGLMS -> TechMoveGLMS.Shared -> Microsoft.EntityFrameworkCore.SqlServer (>= 10.0.8) \r\n TechMoveGLMS -> Microsoft.EntityFrameworkCore.SqlServer (>= 10.0.6)",
+      "libraryId": "Microsoft.EntityFrameworkCore.SqlServer",
       "targetGraphs": [
         "net10.0"
       ]

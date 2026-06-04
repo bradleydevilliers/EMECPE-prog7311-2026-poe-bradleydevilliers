@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TechMoveGLMS.Data;
-using TechMoveGLMS.Models.Entities;
-using TechMoveGLMS.Services;
+using TechMoveGLMS.Shared.Data;
+using TechMoveGLMS.Shared.Models.Entities;
+using TechMoveGLMS.Shared.Services;
 namespace TechMoveGLMS.Controllers
 {
     //(Microsoft,2026)
