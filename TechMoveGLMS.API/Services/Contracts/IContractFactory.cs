@@ -1,4 +1,4 @@
-using TechMoveGLMS.Models.Entities;
+using TechMoveGLMS.Shared.Models.Entities;
 // (Refactoring Guru, 2026)
 namespace TechMoveGLMS.Shared.Services.Contracts
 {

@@ -1,32 +1,28 @@
+using TechMoveGLMS.Services.ApiClients;
+using TechMoveGLMS.Shared.Data;
 using Microsoft.EntityFrameworkCore;
-using TechMoveGLMS.Data;
-using TechMoveGLMS.Services.Contracts;
-using TechMoveGLMS.Services.Notifications;
-using TechMoveGLMS.Services.Pricing;
-using TechMoveGLMS.Services;
+using TechMoveGLMS.Services.ApiClients;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Register HttpClient for Currency API
-builder.Services.AddHttpClient<CurrencyService>();
+builder.Services.AddHttpClient<ClientApiService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
+});
 
-// Register Factory Method Pattern
-builder.Services.AddScoped<IContractFactory, ContractFactory>();
-// Register Observer Pattern services
-builder.Services.AddSingleton<NotificationService>();
-builder.Services.AddScoped<INotificationObserver, EmailNotifier>();
-builder.Services.AddScoped<INotificationObserver, ComplianceLogger>();
-  
-// Register Strategy Pattern services
-builder.Services.AddScoped<PricingContext>();
+builder.Services.AddHttpClient<ContractApiService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
+});
 
-// Register DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Add session support
+builder.Services.AddHttpClient<ServiceRequestApiService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
+});
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -35,46 +31,28 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Register AuthService
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 var app = builder.Build();
-// AUTO-CREATE DATABASE AND TABLES ON STARTUP
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.EnsureCreated();
-    Console.WriteLine(" Database and tables created/verified successfully!");
-}
-using (var scope = app.Services.CreateScope())
-{
-    var authService = scope.ServiceProvider.GetRequiredService<AuthService>();
-    await authService.EnsureAdminExistsAsync();
-    Console.WriteLine(" Admin account verified!");
-}
 
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
-
 app.UseAuthorization();
-
 app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-
 app.Run();
-

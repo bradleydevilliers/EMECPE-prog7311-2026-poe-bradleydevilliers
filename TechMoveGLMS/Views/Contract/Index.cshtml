@@ -1,10 +1,10 @@
-@model IEnumerable<TechMoveGLMS.Models.Entities.Contract>
+@model IEnumerable<TechMoveGLMS.Shared.Models.DTOs.ContractDto>
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Contracts";
-     var userRole = HttpContextAccessor.HttpContext?.Session.GetString("UserRole");
+    var userRole = HttpContextAccessor.HttpContext?.Session.GetString("UserRole");
     var isAdmin = userRole == "Admin";
 }
 <!--(W3Schools 2026)(Bootstrap Team 2026)-->
@@ -32,16 +32,15 @@
             var isExpired = item.EndDate < DateTime.Now;
             var statusClass = item.Status == "Active" && !isExpired ? "text-success" : 
                               (isExpired ? "text-danger" : "text-warning");
-            
             <tr>
                 <td>@item.Id</td>
-                <td>@item.Client?.Name</td>
+                <td>@item.ClientName</td>
                 <td>@item.ServiceLevel</td>
                 <td>@item.StartDate.ToShortDateString()</td>
                 <td>@item.EndDate.ToShortDateString()</td>
                 <td class="@statusClass">
                     @(isExpired ? "Expired" : item.Status)
-                </td>
+                 </td>
                 <td>
                     @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
                     {
@@ -49,17 +48,18 @@
                             Download PDF
                         </a>
                     }
-                </td>
-                 @if (isAdmin)
+                 </td>
+                @if (isAdmin)
                 {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
-                    </td>
+                     </td>
                 }
             </tr>
         }
     </tbody>
 </table>
+
 <!--(W3Schools 2026)(Bootstrap Team 2026)-->
 <!--(Bootstrap Team ,2025) Examples [online] Available at: https://getbootstrap.com/docs/5.3/examples/-->
 <!--(W3Schools ,2026) CSS Examples [online] Available at: https://www.w3schools.com/css/css_examples.asp -->

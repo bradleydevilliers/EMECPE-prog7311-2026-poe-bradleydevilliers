@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations.Schema;
 //(Microsoft,2026)
 namespace TechMoveGLMS.Shared.Models.Entities
@@ -31,6 +32,7 @@ namespace TechMoveGLMS.Shared.Models.Entities
         public string? SignedAgreementPath { get; set; }
         
         // Navigation property - One contract has many service requests
+        [JsonIgnore]
         public List<ServiceRequest> ServiceRequests { get; set; } = new();
         
         // Computed property to check if contract is expired

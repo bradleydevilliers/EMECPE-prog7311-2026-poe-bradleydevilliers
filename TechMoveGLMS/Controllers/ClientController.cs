@@ -1,174 +1,95 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TechMoveGLMS.Shared.Data;
+using TechMoveGLMS.Services.ApiClients;
+using TechMoveGLMS.Shared.Models.DTOs;
 using TechMoveGLMS.Shared.Models.Entities;
-using TechMoveGLMS.Shared.Services;
-namespace TechMoveGLMS.Controllers
+
+namespace TechMoveGLMS.Controllers;
+
+public class ClientController : Controller
 {
-    //(Microsoft,2026)
-    public class ClientController : Controller
+    private readonly ClientApiService _clientApi;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public ClientController(ClientApiService clientApi, IHttpContextAccessor httpContextAccessor)
     {
-        private readonly ApplicationDbContext _context;
-        private readonly AuthService _authService;
-        public ClientController(ApplicationDbContext context,AuthService authService)
+        _clientApi = clientApi;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    private bool IsAdmin() => _httpContextAccessor.HttpContext?.Session.GetString("UserRole") == "Admin";
+    private int? CurrentClientId() => _httpContextAccessor.HttpContext?.Session.GetInt32("ClientId");
+
+    public async Task<IActionResult> Index()
+    {
+        var allClients = await _clientApi.GetAllAsync();
+        if (!IsAdmin())
         {
-            _context = context;
-            _authService = authService;
-        }
-        
-        // GET: Client
-        public async Task<IActionResult> Index()
-        {
-            // Check if user is logged in
-            var currentUser = _authService.GetCurrentUser();
-            if (currentUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-             // Admins see all clients, Clients see only themselves
-            if (_authService.IsAdmin())
-            {
-                // Admin: Show all clients
-                var clients = await _context.Clients.ToListAsync();
-                return View(clients);
-            }
+            var myId = CurrentClientId();
+            if (myId.HasValue)
+                allClients = allClients.Where(c => c.Id == myId.Value).ToList();
             else
-            {
-                // Client: Show only their own client record
-                if (currentUser.ClientId != null)
-                {
-                    var client = await _context.Clients
-                        .Where(c => c.Id == currentUser.ClientId)
-                        .ToListAsync();
-                    return View(client);
-                }
-                // If client user has no linked ClientId, show empty
-                return View(new List<Client>());
-            }
+                allClients = new List<ClientDto>();
         }
-                
-        
-        //  Client/Create
-        public IActionResult Create()
-        {
-             // Only Admin can create clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            return View();
-        }
-        
-        // POST: Client/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Client client)
-        {
-            // Only Admin can create clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(client);
-        }
-        
-        // Client/Edit
-        public async Task<IActionResult> Edit(int? id)
-        {
-            // Only Admin can edit clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null) return NotFound();
-            
-            return View(client);
-        }
-        
-        // POST: Client/Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Client client)
-        {
-            // Only Admin can edit clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            
-            if (id != client.Id) return NotFound();
-            
-            if (ModelState.IsValid)
-            {
-                _context.Update(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(client);
-        }
-        
-        // GET: Client/Delete
-        public async Task<IActionResult> Delete(int? id)
-        {
-            // Only Admin can delete clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            if (id == null) return NotFound();
-            
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null) return NotFound();
-            
-            return View(client);
-        }
-        
-        // POST: Client/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-             // Only Admin can delete clients
-            if (!_authService.IsAdmin())
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        // GET: Client/Details
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null) return NotFound();
-            
-            var client = await _context.Clients
-                .Include(c => c.Contracts)
-                .FirstOrDefaultAsync(c => c.Id == id);
-                
-            if (client == null) return NotFound();
-            
-            // Check if user can access this client
-            if (!_authService.CanAccessClient(client.Id))
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-            
-            return View(client);
-        }
+        return View(allClients);
+    }
+
+    public IActionResult Create()
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Client client)
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        if (!ModelState.IsValid) return View(client);
+        await _clientApi.CreateAsync(client);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        var client = await _clientApi.GetByIdAsync(id);
+        if (client == null) return NotFound();
+        return View(client);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, Client client)
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        if (id != client.Id) return NotFound();
+        if (!ModelState.IsValid) return View(client);
+        await _clientApi.UpdateAsync(client);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        var client = await _clientApi.GetByIdAsync(id);
+        if (client == null) return NotFound();
+        return View(client);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        if (!IsAdmin()) return RedirectToAction("AccessDenied", "Account");
+        await _clientApi.DeleteAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var client = await _clientApi.GetByIdAsync(id);
+        if (client == null) return NotFound();
+
+        if (!IsAdmin() && CurrentClientId() != id)
+            return RedirectToAction("AccessDenied", "Account");
+
+        return View(client);
     }
 }
-//Microsoft, 2026. ASP.NET Core MVC Overview.[Online] Available at:
-//https://learn.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-10.0

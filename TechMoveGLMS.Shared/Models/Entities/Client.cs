@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 //(Microsoft,2026)
 namespace TechMoveGLMS.Shared.Models.Entities
 {
@@ -17,6 +18,7 @@ namespace TechMoveGLMS.Shared.Models.Entities
         public string Region { get; set; }
         
         // Navigation property - One client has many contracts
+        [JsonIgnore]
         public List<Contract> Contracts { get; set; } = new();
         public List<User> Users { get; set; } = new();
     }

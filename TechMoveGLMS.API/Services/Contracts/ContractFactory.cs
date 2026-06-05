@@ -1,4 +1,4 @@
-using TechMoveGLMS.Models.Entities;
+using TechMoveGLMS.Shared.Models.Entities;
 
 namespace TechMoveGLMS.Shared.Services.Contracts
 {

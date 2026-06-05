@@ -1,8 +1,7 @@
-namespace TechMoveGLMS.Shared.Models;
+namespace TechMoveGLMS.Shared.Models.ViewModels;
 
 public class ErrorViewModel
 {
     public string? RequestId { get; set; }
-
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

@@ -1,11 +1,11 @@
-@model IEnumerable<TechMoveGLMS.Models.Entities.ServiceRequest>
+@model IEnumerable<TechMoveGLMS.Shared.Models.DTOs.ServiceRequestDto>
 
 @{
     ViewData["Title"] = "Service Requests";
 }
 
 <h1>Service Requests</h1>
-<!--(W3Schools 2026)(Bootstrap Team 2026)-->
+
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success">@TempData["Success"]</div>
@@ -34,7 +34,7 @@
             <tr>
                 <td>@item.Id</td>
                 <td>#@item.ContractId</td>
-                <td>@item.Contract?.Client?.Name</td>
+                <td>@item.ClientName</td>
                 <td>@item.Description</td>
                 <td>@item.ServiceLevel</td>
                 <td>@item.Status</td>
@@ -43,7 +43,9 @@
             </tr>
         }
     </tbody>
-</table> <!--(W3Schools 2026)(Bootstrap Team 2026)-->
+</table>
+
+<!--(W3Schools 2026)(Bootstrap Team 2026)-->
 <!--(Bootstrap Team ,2025) Examples [online] Available at: https://getbootstrap.com/docs/5.3/examples/-->
 <!--(W3Schools ,2026) CSS Examples [online] Available at: https://www.w3schools.com/css/css_examples.asp -->
 <!--(W3Schools ,2026) CSS HTML Tutorial[online] Available at: https://www.w3schools.com/html/default.asp-->

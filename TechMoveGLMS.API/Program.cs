@@ -7,11 +7,17 @@ using TechMoveGLMS.Shared.Services;
 using TechMoveGLMS.Shared.Services.Contracts;
 using TechMoveGLMS.Shared.Services.Notifications;
 using TechMoveGLMS.Shared.Services.Pricing;
+using TechMoveGLMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,7 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // HTTP client for CurrencyService
 builder.Services.AddHttpClient<CurrencyService>();
 
-// Design patterns (moved from MVC)
+// Design patterns
 builder.Services.AddScoped<IContractFactory, ContractFactory>();
 builder.Services.AddSingleton<NotificationService>();
 builder.Services.AddScoped<INotificationObserver, EmailNotifier>();
@@ -33,6 +39,8 @@ builder.Services.AddScoped<PricingContext>();
 builder.Services.AddScoped<AuthService>();
 
 // JWT Authentication
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey)) throw new Exception("JWT Key is missing from appsettings.json");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -44,7 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
     });
 builder.Services.AddAuthorization();
