@@ -23,9 +23,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database
+// Database - skip if testing environment 
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+}
 // HTTP client for CurrencyService
 builder.Services.AddHttpClient<CurrencyService>();
 
@@ -78,3 +82,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+public partial class Program { }
