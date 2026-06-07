@@ -4,10 +4,6 @@
     ViewData["Title"] = "Clients";
 }
 <!--(W3Schools 2026)(Bootstrap Team 2026)-->
-<div style='background:yellow; padding:10px; margin:10px; border:1px solid red;'>
-    <strong>DEBUG:</strong> Model count = @Model.Count()<br>
-    @if (Model.Any()) { <text>First client: @Model.First().Name (@Model.First().Id)</text> }
-</div>
 <h1>Clients</h1>
 
 <p>
@@ -35,12 +31,11 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                 </td>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
 <!--(W3Schools 2026)(Bootstrap Team 2026)-->
 <!--(Bootstrap Team ,2025) Examples [online] Available at: https://getbootstrap.com/docs/5.3/examples/-->
 <!--(W3Schools ,2026) CSS Examples [online] Available at: https://www.w3schools.com/css/css_examples.asp -->

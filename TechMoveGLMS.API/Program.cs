@@ -11,13 +11,14 @@ using TechMoveGLMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services
 builder.Services.AddControllers()
-    .AddJsonOptions(options =>
+ .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor();   // ← REQUIRED for AuthService
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -39,8 +40,6 @@ builder.Services.AddScoped<PricingContext>();
 builder.Services.AddScoped<AuthService>();
 
 // JWT Authentication
-var jwtKey = builder.Configuration["Jwt:Key"];
-if (string.IsNullOrEmpty(jwtKey)) throw new Exception("JWT Key is missing from appsettings.json");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -52,7 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 builder.Services.AddAuthorization();

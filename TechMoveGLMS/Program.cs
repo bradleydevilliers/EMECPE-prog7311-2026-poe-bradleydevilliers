@@ -1,27 +1,18 @@
 using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Data;
 using Microsoft.EntityFrameworkCore;
-using TechMoveGLMS.Services.ApiClients;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient<ClientApiService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
-});
-
-builder.Services.AddHttpClient<ContractApiService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
-});
-
-builder.Services.AddHttpClient<ServiceRequestApiService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001/");
-});
+builder.Services.AddHttpClient<ClientApiService>();
+builder.Services.AddHttpClient<ContractApiService>();
+builder.Services.AddHttpClient<ServiceRequestApiService>();
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+   // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -32,10 +23,6 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 var app = builder.Build();
 

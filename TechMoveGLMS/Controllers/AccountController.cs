@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using TechMoveGLMS.Shared.Data;
 using System.Text;
 using System.Text.Json;
 
@@ -11,13 +11,12 @@ public class AccountController : Controller
 {
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _config;
-    private readonly ApplicationDbContext _context;
-
-    public AccountController(HttpClient httpClient, IConfiguration config, ApplicationDbContext context)
+    private readonly ClientApiService _clientApi;
+    public AccountController(HttpClient httpClient, IConfiguration config, ClientApiService clientApi)
     {
         _httpClient = httpClient;
         _config = config;
-        _context = context;
+             _clientApi = clientApi;
         _httpClient.BaseAddress = new Uri(_config["ApiBaseUrl"] ?? "http://localhost:5212/");
     }
 
@@ -41,12 +40,13 @@ public class AccountController : Controller
         return View(model);
     }
 
-    public IActionResult Register()
+        public async Task<IActionResult> Register()
     {
-        var clients = _context.Clients
-            .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
-            .ToList() ?? new List<SelectListItem>();
-        var model = new RegisterViewModel { Clients = clients };
+        var clients = await _clientApi.GetAllAsync();
+        var model = new RegisterViewModel
+        {
+            Clients = clients.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList()
+        };
         return View(model);
     }
 

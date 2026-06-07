@@ -1,22 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Models.ViewModels;
-using TechMoveGLMS.Shared.Data;
-
 namespace TechMoveGLMS.Controllers;
 
 public class ServiceRequestController : Controller
 {
     private readonly ServiceRequestApiService _requestApi;
-    private readonly ApplicationDbContext _context;
-
-    public ServiceRequestController(ServiceRequestApiService requestApi, ApplicationDbContext context)
+      private readonly ContractApiService _contractApi;
+    public ServiceRequestController(ServiceRequestApiService requestApi, ContractApiService contractApi)
     {
         _requestApi = requestApi;
-        _context = context;
-    }
+               _contractApi = contractApi;
+        }
 
     public async Task<IActionResult> Index()
     {
@@ -24,18 +20,17 @@ public class ServiceRequestController : Controller
         return View(requests);
     }
 
-    public IActionResult Create()
+        public async Task<IActionResult> Create()
     {
+        var allContracts = await _contractApi.GetAllAsync();
+        var activeContracts = allContracts.Where(c => c.Status == "Active" && c.EndDate >= DateTime.Now).ToList();
         var viewModel = new ServiceRequestViewModel
         {
-            Contracts = _context.Contracts
-                .Include(c => c.Client)
-                .Where(c => c.Status == "Active" && c.EndDate >= DateTime.Now)
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = $"{c.Client.Name} - {c.ServiceLevel} (Expires: {c.EndDate:dd/MM/yyyy})"
-                }).ToList() ?? new(),
+            Contracts = activeContracts.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = $"{c.ClientName} - {c.ServiceLevel} (Expires: {c.EndDate:dd/MM/yyyy})"
+            }).ToList(),
             ServiceLevels = new List<SelectListItem>
             {
                 new() { Value = "Basic", Text = "Basic" },

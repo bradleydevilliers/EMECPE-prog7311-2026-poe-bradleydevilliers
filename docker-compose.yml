@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   sqlserver:
@@ -9,11 +9,17 @@ services:
       SA_PASSWORD: "TheStrong!Password123"
       MSSQL_PID: "Express"
     ports:
-      - "1433:1433"
+      - "1434:1433"
     volumes:
       - sql_data:/var/opt/mssql
     networks:
       - glms-network
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "TheStrong!Password123", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   glms-api:
     build:
@@ -21,10 +27,12 @@ services:
       dockerfile: TechMoveGLMS.API/Dockerfile
     container_name: glms-api
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
+    
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=TechMoveDB;User Id=sa;Password=YourStrong!Password123;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=glms-sqlserver;Database=TechMoveDB;User Id=sa;Password=TheStrong!Password123;TrustServerCertificate=True;"
       Jwt__Key: "TheSuperSecretKeyThatIsAtLeast32CharactersLong!"
       Jwt__Issuer: "TechMoveAPI"
       Jwt__Audience: "TechMoveMVC"
@@ -42,9 +50,9 @@ services:
       - glms-api
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ApiBaseUrl: "http://glms-api"
+      ApiBaseUrl: "http://glms-api:8080"
     ports:
-      - "8080:80"
+      - "8080:8080"
     networks:
       - glms-network
 

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Models.ViewModels;
 using TechMoveGLMS.Shared.Models.DTOs;
-using TechMoveGLMS.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace TechMoveGLMS.Controllers;
@@ -11,13 +10,12 @@ namespace TechMoveGLMS.Controllers;
 public class ContractController : Controller
 {
     private readonly ContractApiService _contractApi;
-    private readonly ApplicationDbContext _context;
-
-    public ContractController(ContractApiService contractApi, ApplicationDbContext context)
+      private readonly ClientApiService _clientApi;
+    public ContractController(ContractApiService contractApi, ClientApiService clientApi)
     {
         _contractApi = contractApi;
-        _context = context;
-    }
+              _clientApi = clientApi;     
+        }
 
     public async Task<IActionResult> Index()
     {
@@ -25,11 +23,12 @@ public class ContractController : Controller
         return View(contracts);
     }
 
-    public IActionResult Create()
+        public async Task<IActionResult> Create()
     {
+        var clients = await _clientApi.GetAllAsync();
         var viewModel = new ContractViewModel
         {
-            Clients = _context.Clients.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList() ?? new(),
+            Clients = clients.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
             ServiceLevels = new List<SelectListItem>
             {
                 new() { Value = "Basic", Text = "Basic" },
