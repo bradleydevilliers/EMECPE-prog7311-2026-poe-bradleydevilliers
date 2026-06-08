@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using TechMoveGLMS.Shared.Data;
 using TechMoveGLMS.Shared.Models.Entities;
 
+
+// I created this controller to handle CRUD operations for clients. All endpoints require a valid JWT token.
+
 namespace TechMoveGLMS.API.Controllers;
 
 [Route("api/[controller]")]
@@ -86,3 +89,6 @@ public class ClientsController : ControllerBase
         return NoContent();
     }
 }
+
+// Microsoft, 2026. ASP.NET Core Web API controllers.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/web-api/

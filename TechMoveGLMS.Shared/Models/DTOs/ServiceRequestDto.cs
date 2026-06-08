@@ -1,3 +1,5 @@
+// I used a DTO to include ClientName and ContractServiceLevel without causing cycles or over‑fetching.
+
 namespace TechMoveGLMS.Shared.Models.DTOs;
 
 public class ServiceRequestDto
@@ -12,3 +14,6 @@ public class ServiceRequestDto
     public string ClientName { get; set; } = "";
     public string ContractServiceLevel { get; set; } = "";
 }
+
+// Microsoft, 2026. Data Transfer Object pattern.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/web-api/overview/data/using-web-api-with-entity-framework/part-5

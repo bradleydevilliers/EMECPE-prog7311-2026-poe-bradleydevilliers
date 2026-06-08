@@ -2,6 +2,11 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 
+
+// These tests verify the login, invalid login, registration, and duplicate email handling.
+// I use a concrete LoginResponse class to deserialise the JWT token from the API.
+
+
 namespace TechMoveGLMS.Tests.Integration;
 
 public class AuthControllerTests : IClassFixture<CustomWebApplicationFactory>
@@ -79,3 +84,6 @@ public class AuthControllerTests : IClassFixture<CustomWebApplicationFactory>
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }
+// Microsoft, 2026. xUnit and Moq for unit/integration testing.[Online] 
+// Available at: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test
+// Moq, 2026. Mocking library for .NET.[Online] Available at: https://github.com/moq/moq

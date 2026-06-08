@@ -2,6 +2,10 @@ using System.Net;
 using System.Net.Http.Json;
 using TechMoveGLMS.Shared.Models.DTOs;
 
+
+// I tested service request creation, retrieval, and status update (PATCH).
+// The tests create a client and a contract before each test that needs them.
+
 namespace TechMoveGLMS.Tests.Integration;
 
 public class ServiceRequestsControllerTests : IClassFixture<CustomWebApplicationFactory>
@@ -103,3 +107,7 @@ public class ServiceRequestsControllerTests : IClassFixture<CustomWebApplication
         Assert.Equal("Completed", updated!.Status);
     }
 }
+
+// Microsoft, 2026. xUnit and Moq for unit/integration testing.[Online] 
+// Available at: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test
+// Moq, 2026. Mocking library for .NET.[Online] Available at: https://github.com/moq/moq

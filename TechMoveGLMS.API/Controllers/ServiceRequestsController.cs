@@ -7,6 +7,10 @@ using TechMoveGLMS.Shared.Services;
 using TechMoveGLMS.Shared.Services.Notifications;
 using TechMoveGLMS.Shared.Services.Pricing;
 
+
+// I used the Strategy pattern (PricingContext) to calculate costs and the Observer pattern (NotificationService) to log events.
+// The currency conversion is done via an external API call (ExchangeRate-API).
+
 namespace TechMoveGLMS.API.Controllers;
 
 [Route("api/[controller]")]
@@ -134,3 +138,7 @@ public class ServiceRequestsController : ControllerBase
         return NoContent();
     }
 }
+// Microsoft, 2026. ASP.NET Core Web API – form binding and routing.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads
+// Refactoring Guru, 2026. Strategy pattern.[Online]
+// Available at: https://refactoring.guru/design-patterns/strategy

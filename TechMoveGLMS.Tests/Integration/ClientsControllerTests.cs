@@ -2,6 +2,9 @@ using System.Net;
 using System.Net.Http.Json;
 using TechMoveGLMS.Shared.Models.DTOs;
 
+
+// These tests cover GET, POST, PUT, DELETE for clients. They ensure the API returns correct status codes and data.
+
 namespace TechMoveGLMS.Tests.Integration;
 
 public class ClientsControllerTests : IClassFixture<CustomWebApplicationFactory>
@@ -87,3 +90,7 @@ public class ClientsControllerTests : IClassFixture<CustomWebApplicationFactory>
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
     }
 }
+
+// Microsoft, 2026. xUnit and Moq for unit/integration testing.[Online] 
+// Available at: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test
+// Moq, 2026. Mocking library for .NET.[Online] Available at: https://github.com/moq/moq

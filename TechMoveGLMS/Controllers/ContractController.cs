@@ -5,6 +5,10 @@ using TechMoveGLMS.Shared.Models.ViewModels;
 using TechMoveGLMS.Shared.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 
+
+// I replaced the DbContext with ContractApiService and ClientApiService.
+// The Create action populates dropdowns by calling the API (GetAllClients), not the database.
+
 namespace TechMoveGLMS.Controllers;
 
 public class ContractController : Controller
@@ -69,3 +73,6 @@ public class ContractController : Controller
         return RedirectToAction(nameof(Index));
     }
 }
+
+// Microsoft, 2026. ASP.NET Core MVC – model binding and API integration.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding

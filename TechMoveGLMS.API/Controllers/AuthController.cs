@@ -7,6 +7,10 @@ using System.Text;
 using TechMoveGLMS.Shared.Data;
 using TechMoveGLMS.Shared.Models.Entities;
 
+
+// I implemented JWT authentication here. The /login endpoint validates the user and returns a token.
+// The /register endpoint hashes the password using SHA256 before storing it.
+
 namespace TechMoveGLMS.API.Controllers;
 
 [Route("api/[controller]")]
@@ -95,3 +99,6 @@ public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
+
+// Microsoft, 2026. JWT authentication in ASP.NET Core.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn

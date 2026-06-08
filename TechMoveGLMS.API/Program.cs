@@ -9,6 +9,10 @@ using TechMoveGLMS.Shared.Services.Notifications;
 using TechMoveGLMS.Shared.Services.Pricing;
 using TechMoveGLMS.API.Services;
 
+
+// I configured the API with JWT authentication, Swagger, and registered all design patterns (Factory, Observer, Strategy).
+// I also added an environment check so that during integration tests we skip the real SQL Server and use an in‑memory database.
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -83,3 +87,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 public partial class Program { }
+
+// Microsoft, 2026. ASP.NET Core WebApplicationBuilder documentation.[Online] 
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplicationbuilder

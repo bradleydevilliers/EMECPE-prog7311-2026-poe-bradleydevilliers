@@ -1,3 +1,5 @@
+# I used a multi‑stage build to keep the final image small: first restore + publish, then copy only the published output.
+
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
@@ -15,3 +17,8 @@ EXPOSE 80
 EXPOSE 443
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "TechMoveGLMS.API.dll"]
+
+
+
+# Docker, 2026. Multi-stage build for .NET applications.[Online] 
+# Available at: https://docs.docker.com/language/dotnet/

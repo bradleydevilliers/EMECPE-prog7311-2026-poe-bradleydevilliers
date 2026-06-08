@@ -6,6 +6,10 @@ using TechMoveGLMS.Shared.Models.Entities;
 using TechMoveGLMS.Shared.Services.Contracts;
 using TechMoveGLMS.Shared.Services.Notifications;
 
+
+// I used the Factory Method pattern here to create contracts based on the service level.
+// The POST endpoint also handles PDF file uploads, and the PATCH endpoint updates the contract status.
+
 namespace TechMoveGLMS.API.Controllers;
 
 [Route("api/[controller]")]
@@ -120,3 +124,8 @@ public class ContractsController : ControllerBase
         return NoContent();
     }
 }
+
+// Microsoft, 2026. ASP.NET Core Web API – RESTful endpoints.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/web-api/
+// Refactoring Guru, 2026. Factory Method pattern.[Online]
+// Available at: https://refactoring.guru/design-patterns/factory-method

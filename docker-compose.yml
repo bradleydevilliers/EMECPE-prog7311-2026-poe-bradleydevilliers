@@ -1,3 +1,5 @@
+# I defined three services: SQL Server (with healthcheck), the API (depends on SQL Server), and the MVC web app (depends on API).
+# The API uses a custom connection string that points to the SQL Server container by its service name.
 
 
 services:
@@ -62,3 +64,7 @@ volumes:
 networks:
   glms-network:
     driver: bridge
+
+
+# Docker, 2026. Docker Compose orchestration for SQL Server, API, and web frontend.[Online] 
+# Available at: https://docs.docker.com/compose/

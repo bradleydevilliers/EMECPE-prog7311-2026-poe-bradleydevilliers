@@ -3,6 +3,10 @@ using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Models.DTOs;
 using TechMoveGLMS.Shared.Models.Entities;
 
+
+// This controller now uses ClientApiService to talk to the API. No direct database access.
+// Admin users see all clients; normal clients see only their own record.
+
 namespace TechMoveGLMS.Controllers;
 
 public class ClientController : Controller
@@ -93,3 +97,6 @@ public class ClientController : Controller
         return View(client);
     }
 }
+
+// Microsoft, 2026. ASP.NET Core MVC – consuming Web API from frontend.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/custom-formatters

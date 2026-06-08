@@ -2,6 +2,10 @@ using System.Net;
 using System.Net.Http.Json;
 using TechMoveGLMS.Shared.Models.DTOs;
 
+
+// I tested contract creation, retrieval, status update (PATCH), and deletion.
+// The tests create a client first because a contract requires a valid ClientId.
+
 namespace TechMoveGLMS.Tests.Integration;
 
 public class ContractsControllerTests : IClassFixture<CustomWebApplicationFactory>
@@ -116,3 +120,7 @@ public class ContractsControllerTests : IClassFixture<CustomWebApplicationFactor
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
     }
 }
+
+// Microsoft, 2026. xUnit and Moq for unit/integration testing.[Online] 
+// Available at: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test
+// Moq, 2026. Mocking library for .NET.[Online] Available at: https://github.com/moq/moq

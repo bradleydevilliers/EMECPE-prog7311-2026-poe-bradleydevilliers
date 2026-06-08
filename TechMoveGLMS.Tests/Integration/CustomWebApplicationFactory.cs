@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TechMoveGLMS.Shared.Data;
 
+
+// I created this factory to run integration tests with an in‑memory database instead of the real SQL Server.
+// The factory removes the original DbContext registration and replaces it with UseInMemoryDatabase.
+
 namespace TechMoveGLMS.Tests.Integration;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
@@ -27,3 +31,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         });
     }
 }
+
+
+// Microsoft, 2026. Integration tests with WebApplicationFactory.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests

@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TechMoveGLMS.Services.ApiClients;
 using TechMoveGLMS.Shared.Models.ViewModels;
+
+// This controller uses ServiceRequestApiService and ContractApiService.
+// The Create GET action filters only active contracts by calling the API.
+
 namespace TechMoveGLMS.Controllers;
 
 public class ServiceRequestController : Controller
@@ -49,3 +53,7 @@ public class ServiceRequestController : Controller
         return RedirectToAction(nameof(Index));
     }
 }
+
+
+// Microsoft, 2026. ASP.NET Core MVC – async controller actions.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/actions

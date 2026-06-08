@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
 using System.Text.Json;
 
+
+// I changed this controller to call the API instead of using the database directly.
+// The Register method now fetches clients via ClientApiService, and Login stores the JWT token in session.
+
 namespace TechMoveGLMS.Controllers;
 
 public class AccountController : Controller
@@ -79,3 +83,6 @@ public class AccountController : Controller
         public int? ClientId { get; set; }
     }
 }
+
+// Microsoft, 2026. ASP.NET Core MVC – HttpClient usage.[Online] 
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests
